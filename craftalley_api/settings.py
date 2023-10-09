@@ -147,6 +147,14 @@ REST_FRAMEWORK = {
     ),
 }
 
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=6000),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=30),
+    "ROTATE_REFRESH_TOKENS": True,
+}
+
+
 SPECTACULAR_SETTINGS = {
     "TITLE": "Craftally API Service",
     "DESCRIPTION": "Site for craft products",
