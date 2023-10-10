@@ -6,8 +6,16 @@ from rest_framework.permissions import IsAuthenticated
 from product.check_ip_for_rating import get_client_ip
 from product.models import Catalog, Category, Product, Rating
 from product.permissions import IsAdminOrIfAuthenticatedReadOnly
-from product.serializers import CatalogSerializer, CategorySerializer, CategoryListSerializer, CategoryDetailSerializer, \
-    ProductSerializer, ProductListSerializer, ProductDetailSerializer, CreateRatingSerializer
+from product.serializers import (
+    CatalogSerializer,
+    CategorySerializer,
+    CategoryListSerializer,
+    CategoryDetailSerializer,
+    ProductSerializer,
+    ProductListSerializer,
+    ProductDetailSerializer,
+    CreateRatingSerializer,
+)
 
 
 class CatalogPagination(PageNumberPagination):
@@ -53,6 +61,9 @@ class ProductViewSet(viewsets.ModelViewSet):
     pagination_class = ProductPagination
     permission_classes = (IsAuthenticated,)
 
+    def perform_create(self, serializer):
+        serializer.save(manufacturer=self.request.user)
+
     def get_queryset(self):
         product = (
             Product.objects.all()
@@ -64,7 +75,7 @@ class ProductViewSet(viewsets.ModelViewSet):
             )
             .annotate(
                 middle_star=models.Sum(models.F("ratings__star"))
-                            / models.Count(models.F("ratings"))
+                / models.Count(models.F("ratings"))
             )
         )
         return product
@@ -77,11 +88,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         return ProductSerializer
 
 
+
 class AddStarRatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = CreateRatingSerializer
     permission_classes = (IsAuthenticated,)
-
 
     def perform_create(self, serializer):
         serializer.save(ip=get_client_ip(self.request))

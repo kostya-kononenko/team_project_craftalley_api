@@ -25,7 +25,8 @@ class CategorySerializer(serializers.ModelSerializer):
 
 class CategoryListSerializer(serializers.ModelSerializer):
     catalog = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name")
+        many=False, read_only=True, slug_field="name"
+    )
 
     class Meta:
         model = Category
@@ -38,7 +39,8 @@ class CategoryListSerializer(serializers.ModelSerializer):
 
 class CategoryDetailSerializer(serializers.ModelSerializer):
     catalog = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name")
+        many=False, read_only=True, slug_field="name"
+    )
 
     class Meta:
         model = Category
@@ -50,6 +52,9 @@ class CategoryDetailSerializer(serializers.ModelSerializer):
 
 
 class ProductSerializer(serializers.ModelSerializer):
+    middle_star = serializers.IntegerField(read_only=True)
+    rating_user = serializers.BooleanField(read_only=True)
+
     class Meta:
         model = Product
         fields = (
@@ -64,20 +69,23 @@ class ProductSerializer(serializers.ModelSerializer):
             "coupon",
             "quantity",
             "category",
-            "manufacturer",
             "image",
             "created",
             "updated",
+            "middle_star",
+            "rating_user"
         )
 
 
 class ProductListSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="name")
+        many=False, read_only=True, slug_field="name"
+    )
     manufacturer = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="brand_name")
-    middle_star = serializers.IntegerField()
-    rating_user = serializers.BooleanField()
+        many=False, read_only=True, slug_field="brand_name"
+    )
+    middle_star = serializers.IntegerField(read_only=True)
+    rating_user = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Product
@@ -105,8 +113,8 @@ class ProductListSerializer(serializers.ModelSerializer):
 class ProductDetailSerializer(serializers.ModelSerializer):
     category = CategoryDetailSerializer(many=False)
     manufacturer = UserDetailSerializer(many=False)
-    middle_star = serializers.IntegerField()
-    rating_user = serializers.BooleanField()
+    middle_star = serializers.IntegerField(read_only=True)
+    rating_user = serializers.BooleanField(read_only=True)
 
     class Meta:
         model = Product
