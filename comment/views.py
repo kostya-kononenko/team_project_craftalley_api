@@ -1,7 +1,5 @@
-
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
-from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 
 from comment.models import Comment
@@ -10,9 +8,9 @@ from comment.permissions import IsOwnerOrReadOnly
 from comment.serializers import (
     CommentSerializer,
     CommentDetailSerializer,
-    CommentImageSerializer, CommentListSerializer
+    CommentImageSerializer,
+    CommentListSerializer,
 )
-from product.models import Product
 
 
 class CommentViewSet(viewsets.ModelViewSet):

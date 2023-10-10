@@ -14,7 +14,14 @@ def comment_image_file_path(instance, filename):
 
 class Comment(models.Model):
     content = models.TextField()
-    image = models.ImageField(null=True, upload_to=comment_image_file_path, blank=True)
-    user = models.ForeignKey("user.User", on_delete=models.SET_NULL, null=True)
+    image = models.ImageField(null=True,
+                              upload_to=comment_image_file_path,
+                              blank=True)
+    user = models.ForeignKey("user.User",
+                             on_delete=models.SET_NULL,
+                             null=True)
     date_posted = models.DateTimeField(auto_now_add=True)
-    product = models.ForeignKey("product.Product", on_delete=models.CASCADE, related_name="comments")
+    product = models.ForeignKey(
+        "product.Product", on_delete=models.CASCADE,
+        related_name="comments"
+    )
