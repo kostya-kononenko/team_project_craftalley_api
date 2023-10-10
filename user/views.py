@@ -11,7 +11,7 @@ from user.models import User, Rating
 from user.serializers import (
     UserSerializer,
     UserDetailSerializer,
-CreateUserRatingSerializer,
+    CreateUserRatingSerializer,
 )
 
 
@@ -42,7 +42,7 @@ class ListUserView(generics.ListAPIView):
             )
             .annotate(
                 middle_star=models.Sum(models.F("ratings__star"))
-                            / models.Count(models.F("ratings"))
+                / models.Count(models.F("ratings"))
             )
         )
         return user
@@ -64,7 +64,7 @@ class DetailUserView(generics.RetrieveAPIView):
             )
             .annotate(
                 middle_star=models.Sum(models.F("ratings__star"))
-                            / models.Count(models.F("ratings"))
+                / models.Count(models.F("ratings"))
             )
         )
         return user

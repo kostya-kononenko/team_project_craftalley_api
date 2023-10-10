@@ -8,6 +8,7 @@ from user.models import Rating
 class UserSerializer(serializers.ModelSerializer):
     middle_star = serializers.IntegerField()
     rating_user = serializers.BooleanField()
+
     class Meta:
         model = get_user_model()
         fields = (
@@ -20,7 +21,7 @@ class UserSerializer(serializers.ModelSerializer):
             "about_myself",
             "date_of_birth",
             "middle_star",
-            "rating_user"
+            "rating_user",
         )
         read_only_fields = ("id", "is_stuff")
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
@@ -55,7 +56,7 @@ class UserDetailSerializer(UserSerializer):
             "image",
             "date_of_birth",
             "middle_star",
-            "rating_user"
+            "rating_user",
         )
 
 
@@ -70,25 +71,21 @@ class AuthTokenSerializer(serializers.Serializer):
         password = attrs.get("password")
 
         if email and password:
-            user = authenticate(email=email,
-                                password=password)
+            user = authenticate(email=email, password=password)
 
             if user:
                 if not user.is_active:
                     msg = _("User account is disabled.")
-                    raise serializers.ValidationError(
-                        msg,
-                        code="authorization")
+                    raise serializers.ValidationError(msg,
+                                                      code="authorization")
             else:
                 msg = _("Unable to log in with provided credentials.")
-                raise serializers.ValidationError(
-                    msg,
-                    code="authorization")
+                raise serializers.ValidationError(msg,
+                                                  code="authorization")
         else:
             msg = _("Must include 'username' and 'password'.")
-            raise serializers.ValidationError(
-                msg,
-                code="authorization")
+            raise serializers.ValidationError(msg,
+                                              code="authorization")
 
         attrs["user"] = user
         return attrs

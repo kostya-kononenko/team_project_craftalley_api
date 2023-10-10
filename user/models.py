@@ -42,7 +42,8 @@ class User(AbstractUser):
         EMAIL = "email", "email"
         TELEGRAM = "telegram", "telegram"
 
-    image = models.ImageField(null=True, blank=True,
+    image = models.ImageField(null=True,
+                              blank=True,
                               upload_to="images/profile/")
     about_myself = models.TextField(max_length=500)
     date_of_birth = models.DateField(null=True, blank=True)
@@ -75,14 +76,11 @@ class RatingStarUsers(models.Model):
 class Rating(models.Model):
     ip = models.CharField("IP address", max_length=15)
     star = models.ForeignKey(
-        RatingStarUsers,
-        on_delete=models.CASCADE,
+        RatingStarUsers, on_delete=models.CASCADE,
         verbose_name="star"
     )
-    user = models.ForeignKey(
-        User,
-        on_delete=models.CASCADE,
-        related_name="ratings")
+    user = models.ForeignKey(User, on_delete=models.CASCADE,
+                             related_name="ratings")
 
     def __str__(self):
         return f"{self.star} - {self.user.username}"

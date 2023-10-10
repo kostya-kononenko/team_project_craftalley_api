@@ -13,6 +13,7 @@ from user.views import (
     DetailUserView,
     AddStarRatingViewSet,
 )
+
 router = routers.DefaultRouter()
 router.register("rating", AddStarRatingViewSet)
 
