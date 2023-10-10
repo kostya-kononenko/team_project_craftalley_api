@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     "drf_spectacular",
     "user",
     "product",
+    "comment",
     "faker",
 ]
 
