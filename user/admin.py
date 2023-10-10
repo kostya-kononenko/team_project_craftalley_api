@@ -44,6 +44,7 @@ class UserAdmin(DjangoUserAdmin):
                     "first_name",
                     "last_name",
                     "is_staff",
+                    "brand_name",
                     "user_notification")
     search_fields = ("email",
                      "first_name",

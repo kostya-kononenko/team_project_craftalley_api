@@ -8,7 +8,8 @@ def main():
             city=fake.city(),
             email=fake.email(),
             password=fake.password(),
-            date_of_birth=fake.date()
+            date_of_birth=fake.date(),
+            brand_name=fake.word(),
         )
         print(f"Created users. Name: {User.first_name} - {User.last_name}")
 

@@ -49,6 +49,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_("email address"), unique=True)
     city = models.CharField(max_length=50)
+    brand_name = models.CharField(max_length=50)
     user_notification = models.CharField(
         max_length=25, choices=Notification.choices, default=Notification.EMAIL
     )
