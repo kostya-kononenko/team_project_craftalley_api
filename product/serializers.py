@@ -1,5 +1,6 @@
 from rest_framework import serializers
 
+from comment.serializers import CommentDetailSerializer
 from product.models import Catalog, Category, Product, Rating
 from user.serializers import UserDetailSerializer
 
@@ -115,6 +116,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
     manufacturer = UserDetailSerializer(many=False)
     middle_star = serializers.IntegerField(read_only=True)
     rating_user = serializers.BooleanField(read_only=True)
+    comments = CommentDetailSerializer(many=True, read_only=True)
 
     class Meta:
         model = Product
@@ -136,6 +138,7 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "updated",
             "middle_star",
             "rating_user",
+            "comments",
         )
 
 
