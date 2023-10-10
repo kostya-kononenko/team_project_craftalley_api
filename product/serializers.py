@@ -75,7 +75,7 @@ class ProductListSerializer(serializers.ModelSerializer):
     category = serializers.SlugRelatedField(
         many=False, read_only=True, slug_field="name")
     manufacturer = serializers.SlugRelatedField(
-        many=False, read_only=True, slug_field="first_name")
+        many=False, read_only=True, slug_field="brand_name")
 
     class Meta:
         model = Product
