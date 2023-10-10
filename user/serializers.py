@@ -2,8 +2,12 @@ from django.contrib.auth import get_user_model, authenticate
 from rest_framework import serializers
 from django.utils.translation import gettext as _
 
+from user.models import Rating
+
 
 class UserSerializer(serializers.ModelSerializer):
+    middle_star = serializers.IntegerField()
+    rating_user = serializers.BooleanField()
     class Meta:
         model = get_user_model()
         fields = (
@@ -15,6 +19,8 @@ class UserSerializer(serializers.ModelSerializer):
             "image",
             "about_myself",
             "date_of_birth",
+            "middle_star",
+            "rating_user"
         )
         read_only_fields = ("id", "is_stuff")
         extra_kwargs = {"password": {"write_only": True, "min_length": 5}}
@@ -34,6 +40,9 @@ class UserSerializer(serializers.ModelSerializer):
 
 
 class UserDetailSerializer(UserSerializer):
+    middle_star = serializers.IntegerField()
+    rating_user = serializers.BooleanField()
+
     class Meta:
         model = get_user_model()
         fields = (
@@ -45,6 +54,8 @@ class UserDetailSerializer(UserSerializer):
             "about_myself",
             "image",
             "date_of_birth",
+            "middle_star",
+            "rating_user"
         )
 
 
@@ -81,3 +92,17 @@ class AuthTokenSerializer(serializers.Serializer):
 
         attrs["user"] = user
         return attrs
+
+
+class CreateUserRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ("star", "user", "ip")
+
+        def create(self, validate_data):
+            rating = Rating.objects.update_or_create(
+                ip=validate_data.get("ip", None),
+                user=validate_data.get("user", None),
+                defaults={"star": validate_data.get("star")},
+            )
+            return rating
