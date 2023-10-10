@@ -48,6 +48,7 @@ class User(AbstractUser):
     date_of_birth = models.DateField(null=True, blank=True)
     username = None
     email = models.EmailField(_("email address"), unique=True)
+    city = models.CharField(max_length=50)
     user_notification = models.CharField(
         max_length=25, choices=Notification.choices, default=Notification.EMAIL
     )
@@ -56,3 +57,35 @@ class User(AbstractUser):
     REQUIRED_FIELDS = []
 
     objects = UserManager()
+
+
+class RatingStarUsers(models.Model):
+    value = models.PositiveSmallIntegerField("Meaning", default=0)
+
+    def __str__(self):
+        return f"{self.value}"
+
+    class Meta:
+        verbose_name = "Star rating"
+        verbose_name_plural = "Rating Stars"
+        ordering = ["-value"]
+
+
+class Rating(models.Model):
+    ip = models.CharField("IP address", max_length=15)
+    star = models.ForeignKey(
+        RatingStarUsers,
+        on_delete=models.CASCADE,
+        verbose_name="star"
+    )
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="ratings")
+
+    def __str__(self):
+        return f"{self.star} - {self.user.username}"
+
+    class Meta:
+        verbose_name = "Rating"
+        verbose_name_plural = "Ratings"
