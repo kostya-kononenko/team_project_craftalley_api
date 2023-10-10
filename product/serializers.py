@@ -76,6 +76,8 @@ class ProductListSerializer(serializers.ModelSerializer):
         many=False, read_only=True, slug_field="name")
     manufacturer = serializers.SlugRelatedField(
         many=False, read_only=True, slug_field="brand_name")
+    middle_star = serializers.IntegerField()
+    rating_user = serializers.BooleanField()
 
     class Meta:
         model = Product
@@ -95,12 +97,16 @@ class ProductListSerializer(serializers.ModelSerializer):
             "image",
             "created",
             "updated",
+            "middle_star",
+            "rating_user",
         )
 
 
 class ProductDetailSerializer(serializers.ModelSerializer):
     category = CategoryDetailSerializer(many=False)
     manufacturer = UserDetailSerializer(many=False)
+    middle_star = serializers.IntegerField()
+    rating_user = serializers.BooleanField()
 
     class Meta:
         model = Product
@@ -120,6 +126,8 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "image",
             "created",
             "updated",
+            "middle_star",
+            "rating_user",
         )
 
 
