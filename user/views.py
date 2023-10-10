@@ -78,6 +78,7 @@ class CreateTokenView(ObtainAuthToken):
 class AddStarRatingViewSet(viewsets.ModelViewSet):
     queryset = Rating.objects.all()
     serializer_class = CreateUserRatingSerializer
+    permission_classes = (IsAuthenticated,)
 
     def perform_create(self, serializer):
         serializer.save(ip=get_client_ip(self.request))
