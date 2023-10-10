@@ -1,7 +1,7 @@
 from rest_framework import serializers
 
-from product.models import Catalog, Category, Product
-from user.serializers import UserSerializer, UserDetailSerializer
+from product.models import Catalog, Category, Product, Rating
+from user.serializers import UserDetailSerializer
 
 
 class CatalogSerializer(serializers.ModelSerializer):
@@ -121,3 +121,17 @@ class ProductDetailSerializer(serializers.ModelSerializer):
             "created",
             "updated",
         )
+
+
+class CreateRatingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Rating
+        fields = ("star", "product", "ip")
+
+        def create(self, validate_data):
+            rating = Rating.objects.update_or_create(
+                ip=validate_data.get("ip", None),
+                product=validate_data.get("product", None),
+                defaults={"star": validate_data.get("star")},
+            )
+            return rating
