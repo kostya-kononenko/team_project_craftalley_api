@@ -9,28 +9,37 @@ from .helpers import CartHelper
 
 
 class CartViewSet(viewsets.ModelViewSet):
-    queryset = Cart.objects.all().order_by('id')
+    queryset = Cart.objects.all().order_by("id")
     serializer_class = CartSerializer
 
-    @action(methods=['get'], detail=False, url_path='checkout/(?P<userId>[^/.]+)', url_name='checkout')
+    @action(
+        methods=["get"],
+        detail=False,
+        url_path="checkout/(?P<userId>[^/.]+)",
+        url_name="checkout",
+    )
     def checkout(self, request, *args, **kwargs):
-
         try:
-            user = User.objects.get(pk=int(kwargs.get('userId')))
+            user = User.objects.get(pk=int(kwargs.get("userId")))
         except Exception as e:
             return Response(status=status.HTTP_404_NOT_FOUND,
-                            data={'Error': str(e)})
+                            data={"Error": str(e)})
 
         cart_helper = CartHelper(user)
         checkout_details = cart_helper.prepare_cart_for_checkout()
 
         if not checkout_details:
-            return Response(status=status.HTTP_404_NOT_FOUND,
-                            data={'error': 'Cart of user is empty.'})
+            return Response(
+                status=status.HTTP_404_NOT_FOUND,
+                data={"error": "Cart of user is empty."},
+            )
 
-        return Response(status=status.HTTP_200_OK, data={'checkout_details': checkout_details})
+        return Response(
+            status=status.HTTP_200_OK, data={
+                "checkout_details": checkout_details}
+        )
 
 
 class DeliveryCostViewSet(viewsets.ModelViewSet):
-    queryset = DeliveryCost.objects.all().order_by('id')
+    queryset = DeliveryCost.objects.all().order_by("id")
     serializer_class = DeliveryCostSerializer

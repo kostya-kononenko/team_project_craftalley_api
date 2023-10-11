@@ -5,12 +5,10 @@ from discounts.serializers import CampaignSerializer, CouponSerializer
 
 
 class CampaignViewSet(viewsets.ModelViewSet):
-
-    queryset = Campaign.objects.all().order_by('id')
+    queryset = Campaign.objects.all().order_by("id")
     serializer_class = CampaignSerializer
 
 
 class CouponViewSet(viewsets.ModelViewSet):
-
-    queryset = Coupon.objects.all().order_by('id')
+    queryset = Coupon.objects.all().order_by("id")
     serializer_class = CouponSerializer
