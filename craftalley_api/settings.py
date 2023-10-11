@@ -48,6 +48,8 @@ INSTALLED_APPS = [
     "user",
     "product",
     "comment",
+    "cart",
+    "discounts",
     "faker",
 ]
 
