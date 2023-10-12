@@ -1,5 +1,6 @@
 from rest_framework import viewsets, status
 from rest_framework.decorators import action
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from user.models import User
@@ -11,6 +12,14 @@ from .helpers import CartHelper
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all().order_by("id")
     serializer_class = CartSerializer
+    permission_classes = (IsAuthenticated,)
+
+    def get_queryset(self):
+        queryset = self.queryset.filter(user=self.request.user)
+        return queryset
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)
 
     @action(
         methods=["get"],
