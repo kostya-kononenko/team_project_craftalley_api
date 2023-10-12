@@ -124,9 +124,9 @@ class CartHelper:
             self.checkout_details["products"].append(
                 {
                     "category_id": cart_item.item.category.id,
-                    "category_name": cart_item.item.category.title,
+                    "category_name": cart_item.item.category.name,
                     "product_id": cart_item.item.id,
-                    "product_name": cart_item.item.title,
+                    "product_name": cart_item.item.name,
                     "quantity": cart_item.quantity,
                     "unit_price": cart_item.item.price,
                 }

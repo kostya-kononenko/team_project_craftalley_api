@@ -48,7 +48,7 @@ class CampaignHelper:
             apply_to="Category",
             target_category__in=[
                 cart_item.item.category.id,
-                cart_item.item.category.parent_category_id,
+                # cart_item.item.category.parent_category_id,
             ],
             min_purchased_items__lte=cart_item.quantity,
         )
