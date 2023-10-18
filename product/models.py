@@ -27,6 +27,7 @@ class Product(models.Model):
                               upload_to="images/products/")
     created = models.DateTimeField(auto_now_add=True)
     updated = models.DateTimeField(auto_now=True)
+    gift_wrap = models.BooleanField(default=False)
 
     class Meta:
         ordering = ["name"]
@@ -71,3 +72,14 @@ class Rating(models.Model):
     class Meta:
         verbose_name = "Rating"
         verbose_name_plural = "Ratings"
+
+
+class FavoriteProduct(models.Model):
+    user = models.ForeignKey("user.User",
+                                   on_delete=models.CASCADE)
+    product = models.ForeignKey(Product,
+                             on_delete=models.CASCADE,
+                             related_name="favorite")
+
+    def __str__(self):
+        return f"{self.product} favorite by {self.user}"

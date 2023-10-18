@@ -2,7 +2,7 @@ from rest_framework import serializers
 
 from category.serializers import CategoryDetailSerializer
 from comment.serializers import CommentDetailSerializer
-from product.models import Product, Rating
+from product.models import Product, Rating, FavoriteProduct
 from user.serializers import UserDetailSerializer
 
 
@@ -108,3 +108,34 @@ class CreateRatingSerializer(serializers.ModelSerializer):
                 defaults={"star": validate_data.get("star")},
             )
             return rating
+
+
+class FavoriteSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = FavoriteProduct
+        fields = (
+            "id",
+            "user",
+            "product",
+        )
+
+    def validate(self, data):
+        favorite = FavoriteProduct.objects.filter(
+            product_id=data["product"], user_id=data["user"]
+        )
+        if favorite:
+            raise serializers.ValidationError(
+                "You had already add this product to favorite")
+        return data
+
+
+class FavoriteDetailSerializer(serializers.ModelSerializer):
+    first_name = serializers.ReadOnlyField(source="user.first_name")
+    last_name = serializers.ReadOnlyField(source="user.last_name")
+
+    class Meta:
+        model = FavoriteProduct
+        fields = (
+            "id",
+            "first_name",
+            "last_name")

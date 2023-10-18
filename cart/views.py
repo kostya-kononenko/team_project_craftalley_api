@@ -12,7 +12,7 @@ from .calculate_price_all_item_in_cart import CartHelper
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all().order_by("id")
     serializer_class = CartSerializer
-    # permission_classes = (IsAuthenticated,)
+    permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
         queryset = self.queryset.filter(user=self.request.user).filter(status_item=True)
@@ -26,8 +26,8 @@ class CartViewSet(viewsets.ModelViewSet):
     @action(
         methods=["GET"],
         detail=False,
-        url_path="checkout/(?P<userId>[^/.]+)",
-        url_name="checkout",
+        url_path="checkout_cart/(?P<userId>[^/.]+)",
+        url_name="checkout_cart",
     )
     def checkout(self, request, *args, **kwargs):
         try:
