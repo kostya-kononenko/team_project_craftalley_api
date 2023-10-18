@@ -45,6 +45,10 @@
 > python manage.py runserver
 ```
 
+## Generate your token
+http://127.0.0.1:8000/user/token/
+
+
 ## All endpoint
 
 http://127.0.0.1:8000/doc/swagger/
