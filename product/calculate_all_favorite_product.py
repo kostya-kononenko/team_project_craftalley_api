@@ -1,7 +1,4 @@
-import json
-
-from product.models import Product, FavoriteProduct
-from product.serializers import ProductDetailSerializer
+from product.models import Product
 
 
 class FavoriteHelper:
