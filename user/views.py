@@ -1,4 +1,5 @@
 from django.db import models
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import generics
 from rest_framework.authtoken.serializers import AuthTokenSerializer
 from rest_framework.authtoken.views import ObtainAuthToken
@@ -7,6 +8,7 @@ from rest_framework.settings import api_settings
 from rest_framework import viewsets
 
 from product.check_ip_for_rating import get_client_ip
+from user.filters import UserFilter
 from user.models import User, Rating
 from user.serializers import (
     UserSerializer,
@@ -30,6 +32,8 @@ class UpdateUserView(generics.RetrieveUpdateAPIView):
 class ListUserView(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
+    filter_backends = (DjangoFilterBackend,)
+    filterset_class = UserFilter
 
     def get_queryset(self):
         user = (

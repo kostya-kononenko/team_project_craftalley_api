@@ -1,13 +1,14 @@
-from rest_framework import viewsets
 from django.db import models
 from rest_framework.decorators import action
 from rest_framework.permissions import IsAuthenticatedOrReadOnly
 from rest_framework.generics import get_object_or_404
 from rest_framework.response import Response
 from rest_framework import viewsets, status
+from django_filters.rest_framework import DjangoFilterBackend
 
 from product.calculate_all_favorite_product import FavoriteHelper
 from product.check_ip_for_rating import get_client_ip
+from product.filters import ProductFilter
 from product.models import Product, Rating, FavoriteProduct
 from rest_framework.exceptions import ValidationError
 from product.pagination import ProductPagination
@@ -25,6 +26,8 @@ class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     pagination_class = ProductPagination
     permission_classes = (IsAuthenticatedOrReadOnly, )
+    filter_backends = (DjangoFilterBackend, )
+    filterset_class = ProductFilter
 
     def perform_create(self, serializer):
         serializer.save(manufacturer=self.request.user)

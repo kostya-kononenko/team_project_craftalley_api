@@ -28,17 +28,27 @@
 > python manage.py migrate
 ```
 
+## Create super user
+```shell
+> python manage.py createsuperuser
+```
+
+## Create fixture for fake user, product, catalog, category use:
+
+```shell
+> python manage.py create_fixture.py
+```
+
 
 ## Running API Server
 ```shell
 > python manage.py runserver
 ```
 
-## Create super user
-```shell
-python manage.py createsuperuser
-```
+## All endpoint
 
-## Load fixture use:
+http://127.0.0.1:8000/doc/swagger/
 
-> code here
+or
+
+http://127.0.0.1:8000/doc/redoc/

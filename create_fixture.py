@@ -63,17 +63,17 @@ def main():
 
     print(f"There are {product_count} in the database")
 
-    all_stars = RatingStarProduct.objects.all()
-    all_product = Product.objects.all()
-
-    for _ in range(10):
-        for _ in range(10):
-            Rating.objects.create(
-                ip=random.randint(10, 100000),
-                star=random.choice(all_stars),
-                product=random.choice(all_product),
-            )
-            print(f"Created stars. Name: {Rating.product}")
+    # all_stars = RatingStarProduct.objects.all()
+    # all_product = Product.objects.all()
+    #
+    # for _ in range(10):
+    #     for _ in range(10):
+    #         Rating.objects.create(
+    #             ip=random.randint(10, 100000),
+    #             star=random.choice(all_stars),
+    #             product=random.choice(all_product),
+    #         )
+    #         print(f"Created stars. Name: {Rating.product}")
 
 
 if __name__ == "__main__":
