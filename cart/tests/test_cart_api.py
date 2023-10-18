@@ -1,24 +1,11 @@
 from django.contrib.auth import get_user_model
 from rest_framework.test import APITestCase, APIClient
 from rest_framework import status
-from cart.models import Cart, DeliveryCost
-from product.models import Category, Product, Catalog
+from cart.models import Cart
+from catalog.models import Catalog
+from category.models import Category
+from product.models import Product
 from user.models import User
-
-
-class DeliveryCostTests(APITestCase):
-
-    def test_create_delivery_cost(self):
-        self.test_delivery_cost = DeliveryCost.objects.create(status="Active",
-                                                              cost_per_delivery=10,
-                                                              cost_per_product=4.50,
-                                                              fixed_cost=2.99)
-        data = {"status": self.test_delivery_cost.status,
-                "cost_per_delivery": self.test_delivery_cost.cost_per_delivery,
-                "cost_per_product": self.test_delivery_cost.cost_per_product,
-                "fixed_cost": self.test_delivery_cost.fixed_cost}
-        response = self.client.post('/cart/delivery-cost/', data, format='json')
-        self.assertEqual(response.status_code, status.HTTP_201_CREATED)
 
 
 class CartTests(APITestCase):
@@ -64,11 +51,6 @@ class CartTests(APITestCase):
         self.test_cart_item = Cart.objects.create(user=self.test_user,
                                                   item=self.test_product,
                                                   quantity=4)
-
-        self.test_delivery_cost = DeliveryCost.objects.create(status="Active",
-                                                              cost_per_delivery=10,
-                                                              cost_per_product=4.50,
-                                                              fixed_cost=2.99)
 
         response = self.client.get("/cart/cart/checkout/{0}/".format(self.test_user.id))
 

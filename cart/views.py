@@ -4,25 +4,27 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
 from user.models import User
-from .models import Cart, DeliveryCost
-from .serializers import CartSerializer, DeliveryCostSerializer
-from .helpers import CartHelper
+from .models import Cart
+from .serializers import CartSerializer, PaymentCreateSerializer
+from .calculate_price_all_item_in_cart import CartHelper
 
 
 class CartViewSet(viewsets.ModelViewSet):
     queryset = Cart.objects.all().order_by("id")
     serializer_class = CartSerializer
-    permission_classes = (IsAuthenticated,)
+    # permission_classes = (IsAuthenticated,)
 
     def get_queryset(self):
-        queryset = self.queryset.filter(user=self.request.user)
+        queryset = self.queryset.filter(user=self.request.user).filter(status_item=True)
         return queryset
 
-    def perform_create(self, serializer):
-        serializer.save(user=self.request.user)
+    def get_serializer_class(self):
+        if self.action == "pay_for_product":
+            return PaymentCreateSerializer
+        return CartSerializer
 
     @action(
-        methods=["get"],
+        methods=["GET"],
         detail=False,
         url_path="checkout/(?P<userId>[^/.]+)",
         url_name="checkout",
@@ -48,7 +50,21 @@ class CartViewSet(viewsets.ModelViewSet):
                 "checkout_details": checkout_details}
         )
 
+    @action(
+        methods=["PATCH"],
+        detail=True,
+        url_path="pay",
 
-class DeliveryCostViewSet(viewsets.ModelViewSet):
-    queryset = DeliveryCost.objects.all().order_by("id")
-    serializer_class = DeliveryCostSerializer
+    )
+    def pay_for_product(self, request, pk=None):
+        """Endpoint to pay for the product"""
+        serializer = self.get_serializer(
+            instance=self.get_object(),
+            data=request.data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(serializer.data,
+                        status=status.HTTP_200_OK)
+
+    def perform_create(self, serializer):
+        serializer.save(user=self.request.user)

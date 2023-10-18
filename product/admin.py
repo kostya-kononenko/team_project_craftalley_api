@@ -1,19 +1,5 @@
 from django.contrib import admin
-from .models import Catalog, Category, Product, Rating, RatingStarProduct
-
-
-@admin.register(Catalog)
-class CatalogAdmin(admin.ModelAdmin):
-    list_display = [
-        "name",
-    ]
-
-
-@admin.register(Category)
-class CategoryAdmin(admin.ModelAdmin):
-    list_display = [
-        "name",
-    ]
+from .models import Product, Rating, RatingStarProduct
 
 
 @admin.register(Product)

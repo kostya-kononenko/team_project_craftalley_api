@@ -46,11 +46,14 @@ INSTALLED_APPS = [
     "debug_toolbar",
     "drf_spectacular",
     "user",
+    "catalog",
+    "category",
     "product",
     "comment",
     "cart",
-    "discounts",
-    "faker",
+    "payment",
+    "stripe",
+    "discount",
 ]
 
 MIDDLEWARE = [

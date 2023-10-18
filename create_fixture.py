@@ -1,6 +1,6 @@
 def main():
     fake: Faker = Faker()
-    for _ in range(50):
+    for _ in range(5):
         User.objects.create(
             first_name=fake.first_name(),
             last_name=fake.last_name(),
@@ -17,7 +17,7 @@ def main():
 
     print(f"There are {user_count} in the database")
 
-    for _ in range(20):
+    for _ in range(10):
         Catalog.objects.create(
            name=fake.word(),
         )
@@ -29,9 +29,9 @@ def main():
 
     catalog = Catalog.objects.all()
 
-    for _ in range(40):
+    for _ in range(10):
         Category.objects.create(
-           name=fake.word(),
+            name=fake.word(),
             catalog=random.choice(catalog)
         )
         print(f"Created category. Name: {Category.name}")
@@ -43,7 +43,7 @@ def main():
     category = Category.objects.all()
     users = User.objects.all()
 
-    for _ in range(500):
+    for _ in range(50):
         Product.objects.create(
             name=fake.word(),
             description=fake.paragraph(nb_sentences=5),
@@ -66,8 +66,8 @@ def main():
     all_stars = RatingStarProduct.objects.all()
     all_product = Product.objects.all()
 
-    for _ in range(50):
-        for _ in range(50):
+    for _ in range(10):
+        for _ in range(10):
             Rating.objects.create(
                 ip=random.randint(10, 100000),
                 star=random.choice(all_stars),
@@ -88,6 +88,8 @@ if __name__ == "__main__":
 
     from faker import Faker
     from user.models import User
-    from product.models import Catalog, Category, Product, Rating, RatingStarProduct
+    from product.models import Product, Rating, RatingStarProduct
+    from catalog.models import Catalog
+    from category.models import Category
 
     main()

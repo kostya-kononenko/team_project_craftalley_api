@@ -1,10 +1,9 @@
 from rest_framework import routers
 
-from cart.views import CartViewSet, DeliveryCostViewSet
+from cart.views import CartViewSet
 
 router = routers.DefaultRouter()
-router.register(r"cart", CartViewSet)
-router.register(r"delivery-cost", DeliveryCostViewSet)
+router.register("", CartViewSet)
 
 urlpatterns = router.urls
 

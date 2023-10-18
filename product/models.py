@@ -1,39 +1,5 @@
 from django.db import models
 
-
-class Catalog(models.Model):
-    name = models.CharField(max_length=200)
-
-    class Meta:
-        ordering = ["name"]
-        indexes = [
-            models.Index(fields=["name"]),
-        ]
-        verbose_name = "catalog"
-        verbose_name_plural = "catalogs"
-
-    def __str__(self):
-        return self.name
-
-
-class Category(models.Model):
-    name = models.CharField(max_length=200)
-    catalog = models.ForeignKey(
-        Catalog, related_name="categories", on_delete=models.CASCADE
-    )
-
-    class Meta:
-        ordering = ["name"]
-        indexes = [
-            models.Index(fields=["name"]),
-        ]
-        verbose_name = "category"
-        verbose_name_plural = "categories"
-
-    def __str__(self):
-        return self.name
-
-
 class Product(models.Model):
     class Delivery(models.TextChoices):
         Ukrposhta = "ukrposhta", "ukrposhta"
@@ -48,12 +14,12 @@ class Product(models.Model):
         max_length=25, choices=Delivery.choices, default=Delivery.Novaposhta
     )
     return_conditions = models.TextField(blank=True)
-    price = models.PositiveBigIntegerField(null=True)
+    price = models.DecimalField(null=True, max_digits=10, decimal_places=2)
     new_product = models.BooleanField(default=True)
     coupon = models.CharField(max_length=10, blank=True)
     quantity = models.IntegerField()
     category = models.ForeignKey(
-        Category, related_name="products", on_delete=models.CASCADE
+        "category.Category", related_name="products", on_delete=models.CASCADE
     )
     manufacturer = models.ForeignKey("user.User",
                                      on_delete=models.CASCADE)
